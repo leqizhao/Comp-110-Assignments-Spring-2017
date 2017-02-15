@@ -10,4 +10,28 @@ library(DataComputing)
 ```
 <!-- put your content after this line -->
 
-Here is my content!
+# 1.
+
+![](https://upload.wikimedia.org/wikipedia/commons/7/72/Nanking_bodies_1937.jpg)
+
+* A massacre
+* Happened in Nanjing
+    + in China
+    + by Japanese troop
+    
+1. Year: 1937
+2. City: Nanjing
+3. Details:
+    + 40,000 to over 300,000 people died
+    + lasts 6 weeks
+
+# 2.
+
+```{r}
+my_number <- sin(pi^0.5)
+```
+
+```{r}
+asin(my_number)
+```
+
