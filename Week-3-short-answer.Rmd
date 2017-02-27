@@ -1,6 +1,6 @@
 # Week 3 Short Answer Questions
 
-## Your name should appear here!
+## Leqi Zhao
 
 <!-- leave this material as is -->
 Compiled on `r date()`.
@@ -10,4 +10,134 @@ library(DataComputing)
 ```
 <!-- put your content after this line -->
 
-Here is my content!
+# 5.1
+
+```{r}
+library(mosaicData)
+library(DataComputing)
+data("CPS85")
+
+# You have to dodge the position. This can be solved if I use the ggplot2 package.
+# barGraphHelper(CPS85) 
+```
+
+
+# 5.2
+
+```{r}
+data(HappinessIndex)
+HappinessIndex %>%
+  WorldMap(key="country",fill="corruption")
+```
+
+
+
+# 6.5
+
+b
+
+# 6.6
+
+d
+
+# 6.7
+
+b
+
+# 6.8
+
+```{r}
+Small <-
+   NCHS %>%
+   sample_n(size=5000)
+scatterGraphHelper(Small)
+```
+
+Age and followup is the frame for this plot. 
+
+# 7.1
+
+a. mean
+b. mutate
+c. arrange
+d. filter
+e. select
+f. group_by, summarise, max
+
+# 7.4
+
+a. You don't need double quote
+b. You don't have to include Tmp in the last line
+c. You have to assign BabyNames with values
+
+
+# 7.5
+
+a
+
+BabyNames %>%
+  filter(sex = "F")
+
+b
+
+BabyNames %>%
+  filter(sex = "F") %>%
+  arrange(year)
+
+c
+
+BabyNames %>%
+  filter(sex = "M")
+
+d
+
+BabyNames %>%
+  summarise(total = sum(count))
+
+e
+
+BabyNames %>%
+  select(name, count)
+
+# 7.7
+
+a
+
+BabyNames %>%
+  group_by(BabyNames, year, sex) %>% summarise(BabyNames = BabyNames, total = sum(count))
+ 
+b
+
+ZipGeography <- select(State, Population) %>%
+     group_by(State) %>%
+     summarise(pop = sum(Population))
+
+
+c
+
+Minneapolis2013 <- group_by(First) %>%
+     summarise(voteReceived = n())
+
+d
+
+Minneapolis2013 <- group_by(First)  %>% 
+     summarise(votesReceived = n()) 
+
+# 7.11
+
+a It shows the population and mean age of females and males separately.
+b It shows the population and mean age of people with different diagnosis.
+c It shows the population and mean age of females and males with different diagonosisseparately.
+d It shows the population and mean age of people in every different age and every different diagnosis separately.
+e.It shows the population and mean age of people in every different age separately.
+
+# 7.12
+
+1. nrow()
+2. names()
+3. summary()
+4. help()
+5. group_by()
+6. summarise()
+
+

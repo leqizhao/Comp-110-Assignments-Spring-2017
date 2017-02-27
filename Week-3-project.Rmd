@@ -1,6 +1,6 @@
 # Week 3 Project
 
-## Your name should appear here! 
+## Leqi Zhao
 
 <!-- leave this material as is -->
 Compiled on `r date()`.
@@ -10,4 +10,83 @@ library(DataComputing)
 ```
 <!-- put your content after this line -->
 
-Here is my content!
+# Diamonds
+
+## 1.
+
+
+diamonds %>% 
+  group_by(color) %>% 
+  summarise(carets = mean(caret)) %>% 
+  arrange(desc(carets)) %>% 
+  head(1)
+  
+## 2.
+
+diamonds %>% 
+  group_by(clarity) %>% 
+  summarise(value = table/caret) %>% 
+  arrange(desc(value)) %>% 
+  head(1)
+  
+# Vote
+
+## 1
+
+```{r}
+data(Minneapolis2013)
+tally(Minneapolis2013)
+```
+
+
+## 2
+
+```{r}
+Minneapolis2013 %>% 
+  group_by(Second) %>%
+  summarise(votes = n()) %>%
+  arrange(desc(votes)) %>%
+  head(5)
+```
+
+
+## 3
+
+```{r}
+Minneapolis2013 %>% 
+  filter(First == "undervote") %>%
+  tally()
+
+Minneapolis2013 %>% 
+  filter(Second == "undervote") %>%
+  tally()
+
+Minneapolis2013 %>% 
+  filter(Third == "undervote") %>%
+  tally()
+```
+
+## 4.
+
+
+```{r}
+Minneapolis2013 %>% 
+  filter(First == "BETSY HODGES") %>%
+  group_by(Second) %>%
+  summarise(votes = n()) %>%
+  arrange(desc(votes)) %>%
+  head(3)
+```
+
+
+
+## 5.
+
+```{r}
+Minneapolis2013 %>% 
+  group_by(Precinct) %>%
+  summarise(ratio = mean(First == "undervote")) %>%
+  arrange(desc(ratio)) %>%
+  head(1)
+```
+
