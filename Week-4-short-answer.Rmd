@@ -1,6 +1,6 @@
 # Week 4 Short Answer Questions
 
-## Your name should appear here!
+## Leqi Zhao
 
 <!-- leave this material as is -->
 Compiled on `r date()`.
@@ -10,4 +10,93 @@ library(DataComputing)
 ```
 <!-- put your content after this line -->
 
-Here is my content!
+# 8.1
+
+a 2
+b 2
+c 1
+d 5
+e 3
+f 4
+g 2
+h 3
+i 4
+
+# 8.2
+
+```
+## 1
+CPS85 %>%
+  ggplot(aes(x = age, y = wage, shape = married)) +
+  geom_point() +
+  facet_wrap(~sector)
+
+## 2
+CPS85 %>%
+  ggplot(aes(x = age, y = wage, shape = married)) +
+  geom_point() +
+  facet_wrap(~sex + sector)
+```
+
+
+# 8.3
+
+```
+## A
+CPS85 %>%
+  ggplot(aes(x = age, y = wage)) +
+  geom_point()
+
+## B
+
+CPS85 %>%
+  WorldMap(key = "country", fill = "corruption")
+
+## C
+
+CPS85 %>%
+  ggplot(aes(x = age, y = wage, shape = sex)) +
+  geom_point() +
+  facet_wrap(~sex)
+
+## D
+
+CPS85 %>%
+  ggplot(aes(x = age, y = wage, shape = married)) +
+  geom_point()
+```
+
+
+# 9.1
+
+a: Summary Function
+b: Data Verb
+c: Data Verb
+d: quick Presentation
+e: Data Verb
+f: Summary Function
+g: Data Verb
+h: Data Verb
+i: Summary Function
+
+# 9.3
+
+```
+## 1
+diamonds %>%
+  group_by(color) %>%
+  summarise(avg_size = size/caret) %>%
+  arrange(desc(avg_size)) %>%
+  head( 1 )
+
+
+## 2
+
+diamonds %>%
+  group_by(clarity) %>%
+  summarise(avg_table = table/caret) %>%
+  arrange(desc(avg_table)) %>%
+  head( 1 )
+```
+
+
