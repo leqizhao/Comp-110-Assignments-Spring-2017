@@ -10,4 +10,86 @@ library(DataComputing)
 ```
 <!-- put your content after this line -->
 
-Here is my content!
+# 1
+
+```{r}
+library("mosaicData")
+data(Birthdays)
+DailyBirth <- Birthdays %>%
+  group_by(date) %>%
+  summarise(total_births = sum(births))
+plot(total_births~date, data = DailyBirth)
+```
+
+# 2
+
+```{r}
+DailyBirth %>%
+  mutate(week = week(date)) %>%
+  group_by(week) %>%
+  summarise(total_births = sum(total_births))
+
+DailyBirth %>%
+  mutate(month = month(date)) %>%
+  group_by(month) %>%
+  summarise(total_births = sum(total_births))
+
+DailyBirth %>%
+  mutate(julian_day = yday(date)) %>%
+  group_by(julian_day) %>%
+  summarise(total_births = sum(total_births))
+```
+
+# 3.
+
+```{r}
+DailyBirth %>%
+  mutate(wday = wday(date)) %>%
+  group_by(wday) %>%
+  summarise(total_births = sum(total_births))
+```
+
+# 4
+
+```{r}
+MyTwoYears <- DailyBirth %>%
+  mutate(year = year(date), wday = wday(date)) %>%
+  filter(year %in% c(1980, 1981))
+
+plot(total_births~date, col = wday, data = MyTwoYears)
+```
+
+# 5
+
+```{r}
+Holidays <- read.csv("http://tiny.cc/dcf/US-Holidays.csv") %>%
+  mutate(date = as.POSIXct(lubridate::dmy(date))) %>%
+  filter(year(date) %in% c(1980, 1981))
+  
+```
+
+# 6.
+
+```{r}
+# 1
+MyTwoYears %>%
+  ggplot(aes(x = date,y = total_births)) + 
+  geom_point(aes(col = wday))+
+  geom_vline(data = Holidays, aes(xintercept = as.numeric(date)))
+
+# 2
+ggplot() + 
+geom_line(data = MyTwoYears, aes(x = date,y = total_births, col = as.factor(wday)))+
+geom_vline(data = Holidays, aes(xintercept = as.numeric(date))) +
+geom_text(data = Holidays, mapping = aes(x= date, y = 9000,angle = 80, label = holiday))
+```
+# 7
+
+```{r}
+MyTwoYears <- MyTwoYears %>% mutate(is_holiday = date %in% Holidays$date)
+ggplot() + 
+geom_line(data = MyTwoYears, aes(x = date,y = total_births, col = as.factor(wday), size = is_holiday))+
+geom_vline(data = Holidays, aes(xintercept = as.numeric(date))) +
+geom_text(data = Holidays, mapping = aes(x= date, y = 9000,angle = 80, label = holiday))
+```
+
