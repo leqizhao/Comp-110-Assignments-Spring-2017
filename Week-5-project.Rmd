@@ -1,13 +1,101 @@
 # Week 5 Project
 
-## Your name should appear here!
+## Leqi Zhao
 
 <!-- leave this material as is -->
 Compiled on `r date()`.
 
 ```{r include = FALSE}
 library(DataComputing)
+library(dplyr)
+library(data.table)
 ```
 <!-- put your content after this line -->
 
-Here is my content!
+# Stock and Dividends
+
+TM has bigger income buying and selling a stock certificate. \
+
+Having larger income from buying and selling a stock certificate contantly can also have larger income from dividends
+
+```{r}
+companies <- c("A", "G")
+Prices <- 
+  read_stock_prices(companies, what="daily",
+                  start_year=2000, end_year=2015) 
+
+```
+
+```{r}
+ggplot() +
+  geom_point(data = Prices, aes(x= date, y = close, col = as.factor(company)))
+```
+
+# Buy/Sell Profit
+
+```{r}
+Actions <- data.frame(action = c("buy","sell"), date = c("2012-06-05",  "2014-12-30"))
+Actions$date <- as.Date(Actions$date)
+```
+
+```{r}
+combined <- Actions %>%
+  left_join(Prices, c("date" = "date")) %>%
+  select(company, action, close) %>%
+  spread(key = action, value = close) %>%
+  group_by(company) %>%
+  summarise(profit = sell-buy, percent = (sell-buy)/buy)
+combined  
+```
+
+
+# Indexing Prices
+
+Roughly 2004-5-30 is the reference data in Figure 3.
+
+```{r}
+ref_date <- ymd("2012-06-05")
+Reference <-
+  Prices %>% 
+  filter(date==ref_date) %>%
+  select(company, standard=close)
+```
+
+```{r}
+combined2<- Prices %>%
+  full_join(Reference, by = c("company" = "company")) %>%
+  mutate(ratio = close/standard)
+```
+
+# Dividends
+
+```{r}
+Dividends <- 
+  read_stock_prices(companies, what="dividends") 
+```
+
+## Extract dates
+
+```{r}
+Actions_new <- Actions  %>% spread(key = action, value = date)
+combined3 <- Dividends %>%
+  filter(date > Actions_new$buy & date < Actions_new$sell)
+combined3
+```
+
+## Find the dollar amount of each dividend payment for one share of stock
+
+```{r}
+dividend_dollar <- combined3 %>%
+  left_join(Prices, by = c("company" = "company", "date" = "date")) %>%
+  mutate(dividend_dollar_amount = dividends * close)
+dividend_dollar
+```
+
+## total amount of dividends for each company during the period of interest
+
+```{r}
+dividend_dollar %>% group_by(company) %>% summarise(total_dividend = sum(dividend_dollar_amount))
+```
+
+
