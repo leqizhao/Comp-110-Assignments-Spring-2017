@@ -1,6 +1,6 @@
 # Week 6 Short Answer Questions
 
-## Your name should appear here!
+## Leqi Zhao
 
 <!-- leave this material as is -->
 Compiled on `r date()`.
@@ -10,4 +10,99 @@ library(DataComputing)
 ```
 <!-- put your content after this line -->
 
-Here is my content!
+# 12.1
+
+```{r}
+data(BabyNames)
+BabyNames %>% group_by(sex,name) %>%
+  summarize(total_count = sum(count)) %>%
+  filter(rank(desc(total_count))<=5)
+```
+
+
+# 12.2
+
+```{r}
+PopularCounts <- BabyNames %>%
+  group_by(name, year) %>%
+  summarize(total_count = sum(count)) %>%
+  group_by(year) %>%
+  mutate(frac_in_top_100 = ifelse(rank(desc(total_count))<=100, "yes", "no"))
+
+GlyphReady <-
+  PopularCounts %>%
+  spread(frac_in_top_100, total_count) %>%
+  mutate(frac_in_top_100 = yes / (yes + no))
+
+ggplot() +
+  geom_point(data = GlyphReady, aes(x= year, y = frac_in_top_100))
+
+```
+
+
+# 12.3
+
+a. transformation function \\
+b. transformation function \\
+c. summary function \\
+d. transformation function \\
+e. transformation function \\
+f. transformation function \\
+g. transformation function \\
+h. transformation function \\
+
+# 13.1
+
+8 vertices, 9 edges.
+
+# 13.2
+
+vertices: B,A,C,D, Table 2 shows it correctly. Table 1 points to the wrong direction, there's no connection between B and C. Table 3 has ACD wrong. We should start from C to D, instead of ACD.
+
+# 13.3
+
+Table 2
+
+# 13.4
+
+exports is mapped to the size of the letter. pop is mapped to the shape. 
+
+# 14.1
+
+```{r}
+library(mosaicData)
+data(CPS85)
+CPS85 %>%
+  ggplot(aes(y = wage, x = sex)) +
+  geom_boxplot(aes(color = sex, fill = sex), 
+               position = position_dodge(width=0.8),
+               outlier.size=1, outlier.colour="gray")
+```
+
+
+# 14.3
+
+The most likely height for women will be around 1.62, and for men will be around 1.75.
+
+# 14.7
+
+```{r}
+CPS85 %>%
+  ggplot(aes(y = wage, x = educ, color = sex)) +
+  stat_smooth(se = FALSE) +
+  geom_point(aes(fill = sex), 
+               position = position_dodge(width=0.8),
+               outlier.size=1, outlier.colour="gray")
+```
+
+
+# 14.10
+
+```{r}
+data(Galton)
+Galton %>%
+  ggplot(aes(x= height, group= sex)) +
+  geom_density(aes(color = sex, fill = sex), alpha = 0.5)
+
+```
+
