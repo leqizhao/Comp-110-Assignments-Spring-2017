@@ -10,4 +10,84 @@ library(DataComputing)
 ```
 <!-- put your content after this line -->
 
-Here is my content!
+# 10.1
+
+To join a data table, we must know which data table we want to combine with. So we must indicate the data table within the argument of join family data verb.
+
+# 10.2
+
+This is because the two data table have different values on the column they have in common (country and name). For example, "Aland" shows up in the second table, but not in the first one. So directly copying and pasting will lead to an error of mismatching. We do need to match the values of country in order to combine the two datasets.
+
+# 10.3
+## (1)
+Data Table B is the easist to find the change for each country. We can group by country first (might be unnecessary in this case), then summarize the different by Y2001-Y2000. Actually, Data Table A is easy too. We can convert to a matrix, and subtract row 1 from row 2.
+
+## (2)
+
+Data Table B is easist to find the sum of the values for each continent for each of the years. We can match up two data tables by country and do a left join with Data Table B on the left. Then group by continent and summarize the sum of values for both Y 2000 and Y 2001.
+
+# 11.1
+## (a)
+
+Each person. \\
+For each year, people of one name \\
+people of one name and of one gender \\
+
+
+## (b)
+
+One: narrow, Two: wide.
+
+##(c)
+
+Sex
+
+##(d)
+
+This is because we take out the first data table's value out to create the second and third data table. For 2, for example, for the second row in 1st data, Harrison is male, so for the first row in 2nd data, Harrison cannot be male. For 3, for example, there's no female Harrison in 1912, so it's NA in the first row.
+
+##(e)
+
+Version 2 spreads from Version 1 by sex, while Version 3 spreads from Version 1 by year. They both spreads from Version 1.
+
+##(f)
+
+year. The values within it is nbabies.
+
+##(g)
+
+nbabies \\
+sex\\
+F and M \\
+
+
+# 11.3
+
+A vs. B: A narrow, B wide
+A vs. C: A wide, B narrow
+B vs. C: B wide, C narrow
+
+# 11.4
+
+Here is a sample of data
+
+```{r}
+rbind(c("when", "sbp"), c("BHO", NA),c("before", 120), c("after", 160) )
+```
+
+
+# 11.5
+
+```{r}
+"http://tiny.cc/dcf/MeasTreatTables.rda" %>%
+  url() %>% load()
+```
+
+```{r}
+data <- Measurements %>%
+  left_join(Treatments, by = c("subject" = "subject")) %>%
+  mutate(when = ifelse(date > treatment_date, "after", "before")) %>%
+  spread(key = what, value = values) %>%
+  select(-treatment_date)
+```
+
