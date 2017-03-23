@@ -1,6 +1,6 @@
 # Week 6 Project
 
-## Your name should appear here!
+## Leqi Zhao
 
 <!-- leave this material as is -->
 Compiled on `r date()`.
@@ -10,4 +10,71 @@ library(DataComputing)
 ```
 <!-- put your content after this line -->
 
-Here is my content!
+```{r cache = TRUE}
+data_site <- 
+  "http://tiny.cc/dcf/2014-Q4-Trips-History-Data-Small.rds" 
+Trips <- readRDS(gzcon(url(data_site)))
+```
+
+
+## 1
+```{r}
+Trips %>%
+  ggplot(aes(x= sdate)) +
+  geom_density(alpha = 0.5)
+```
+
+## 2
+```{r}
+Trips <- Trips %>% 
+  mutate(time_of_day = 
+       lubridate::hour(sdate) + 
+         lubridate::minute(sdate) / 60) 
+Trips %>% 
+  ggplot(aes(x= time_of_day)) +
+  geom_density(alpha = 0.5)
+```
+
+## 3.
+
+```{r}
+Trips <- Trips %>%
+  mutate(day_of_week = 
+       lubridate::wday(sdate)) 
+Trips %>% 
+  ggplot(aes(x= time_of_day)) +
+  geom_density(alpha = 0.5) +
+  facet_wrap( ~ day_of_week)
+```
+## 4
+
+```{r}
+Trips %>% 
+  ggplot(aes(x= time_of_day)) +
+  geom_density(aes(fill = client), alpha = 0.3, color=NA) +
+  facet_wrap( ~ day_of_week)
+```
+
+## 5
+
+```{r}
+Trips %>% 
+  ggplot(aes(x= time_of_day)) +
+  geom_density(aes(fill = client), alpha = 0.3, color=NA, position = position_stack()) +
+  facet_wrap( ~ day_of_week)
+```
+
+5 is more effective in telling an interesting story.
+
+## 6
+
+```{r}
+Trips %>%
+  mutate(wday = ifelse(lubridate::wday(sdate) %in% c(1,7), "weekend", "weekday")) %>%
+  ggplot(aes(x= time_of_day)) +
+  geom_density(aes(fill = client), alpha = 0.3, color=NA, position = position_stack()) +
+  facet_wrap( ~ wday)
+```
+
+
+Is it better to facet on wday and fill with client, since wday aggregate the days and we can interpret the result in a contextually meaningful way.
