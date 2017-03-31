@@ -1,6 +1,6 @@
 # Week 7 Short Answer Questions
 
-## Your name should appear here!
+## Leqi Zhao
 
 <!-- leave this material as is -->
 Compiled on `r date()`.
@@ -10,4 +10,51 @@ library(DataComputing)
 ```
 <!-- put your content after this line -->
 
-Here is my content!
+# 15.1
+
+```{r}
+lubridate::mdy("April 30, 1777") - lubridate::mdy("July 31th, 1996")
+lubridate::mdy("06-23-1912") - lubridate::mdy("July 31th, 1996")
+lubridate::dmy("3 March 1847")- lubridate::mdy("July 31th, 1996")
+lubridate::mdy("Nov. 11th, 1918")- lubridate::mdy("July 31th, 1996")
+lubridate::mdy("July 20, 1969")- lubridate::mdy("July 31th, 1996")
+
+```
+# 15.2
+
+as.numeric: h
+tidyr::extract_numeric: a, b, d, f, i
+neither: c, e, g
+
+# 16.1
+
+## 1
+
+```{r}
+data(BabyNames)
+BabyNames %>%
+  group_by(name) %>%
+  summarise(total = sum(count)) %>%
+  extractMatches("([aeiouAEIOU]$)", name) %>%
+  filter( ! is.na(match1)) %>%
+  filter(rank(desc(total)) <= 10)
+```
+## 2
+```{r}
+BabyNames %>%
+  group_by(name) %>%
+  summarise(total = sum(count)) %>%
+  extractMatches("(joe|jo$)", name) %>%
+  filter( ! is.na(match1)) %>%
+  filter(rank(desc(total)) <= 10)
+```
+
+
+# 16.2
+The strings containing numbers can be extracted. From the strings, we can extract numeric values.
+
+# 16.3
+
+The length of the string can range from 2 to 10. \\
+19 different strings will match \\
+I don't live in the United States.. So I don't know about this pattern. \\
