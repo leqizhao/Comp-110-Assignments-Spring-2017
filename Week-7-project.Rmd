@@ -1,6 +1,6 @@
 # Week 7 Project
 
-## Your name should appear here!
+## Leqi Zhao
 
 <!-- leave this material as is -->
 Compiled on `r date()`.
@@ -10,4 +10,44 @@ library(DataComputing)
 ```
 <!-- put your content after this line -->
 
-Here is my content!
+```{r}
+library(rvest)
+library(lubridate)
+page <- "http://en.wikipedia.org/wiki/List_of_nuclear_reactors"
+table_nodes <- page %>%
+  read_html() %>%
+  html_nodes("table")
+table_list <-
+  html_table(table_nodes[1:30], fill = TRUE)
+```
+
+# 1
+
+```{r}
+table = table_list[[24]]  # change index for Japan
+names(table)
+```
+
+# 2
+
+```{r}
+View(table)
+new_names <- c("Name", "Reactor No.", "Reactor_Type", "Reactor Model", "Status", "Capacity_in_MW_Net", "Capacity in MW Gross", "Construction_Start_Date", "Commercial_Operation_Date", "Closure")
+names(table) <- new_names # reset the variable names
+table <- table[-1, ] # drop the first row
+```
+
+# 3 A quick visualization
+
+```{r}
+ggplot(aes(y = as.numeric(Capacity_in_MW_Net), x=lubridate::dmy(Commercial_Operation_Date)), data = table)+
+  geom_point(aes(color = Reactor_Type))
+```
+
+## Construction delays
+
+```{r}
+ggplot(data = table)+
+  geom_segment(aes(x =lubridate::dmy(Construction_Start_Date), xend = lubridate::dmy(Commercial_Operation_Date), y = Name, yend = Name), data = table)
+```
+
