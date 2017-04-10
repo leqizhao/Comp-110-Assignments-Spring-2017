@@ -1,6 +1,6 @@
 # Week 8 Short Answer Questions
 
-## Your name should appear here!
+## Leqi Zhao
 
 <!-- leave this material as is -->
 Compiled on `r date()`.
@@ -10,4 +10,19 @@ library(DataComputing)
 ```
 <!-- put your content after this line -->
 
-Here is my content!
+# 17.2
+
+```{r}
+Houses <-
+  read.file("http://tiny.cc/dcf/houses-for-sale.csv")
+```
+
+1. bedrooms, bathrooms, living area, fireplaces \
+2. No. The number of bathroom will make a different prices for living area that ranges from 1080 square feet to 1483. \
+3. 28372.15 \
+4. The other variable that fireplace making a different price is that living area has to be larger than 2816 square feet. With more than 1 fireplace then, the mean price is 501875.667, which is higher than less or equal to 1 firepace with mean price 384766.354. \
+
+```{r}
+179796.647- 151424.497
+```
+
